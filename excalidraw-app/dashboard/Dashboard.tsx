@@ -553,9 +553,12 @@ export function Dashboard({ onOpenEditor }: DashboardProps) {
   );
 
   const handleNewDrawing = useCallback(() => {
-    newDrawingForEditor();
+    newDrawingForEditor(
+      "Untitled",
+      activeCollection !== "all" ? activeCollection : null,
+    );
     onOpenEditor();
-  }, [onOpenEditor]);
+  }, [onOpenEditor, activeCollection]);
 
   const handleRename = useCallback((id: string, name: string) => {
     updateDrawingMeta(id, { name });

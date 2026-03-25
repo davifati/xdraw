@@ -165,7 +165,10 @@ export function loadDrawingToEditor(id: string): void {
 /**
  * Create a fresh drawing entry, clear the editor slot, and make it active.
  */
-export function newDrawingForEditor(name = "Untitled"): DrawingMeta {
+export function newDrawingForEditor(
+  name = "Untitled",
+  collectionId: string | null = null,
+): DrawingMeta {
   syncActiveDrawingToStore();
 
   const now = Date.now();
@@ -173,7 +176,7 @@ export function newDrawingForEditor(name = "Untitled"): DrawingMeta {
     id: `drw-${uid()}`,
     name,
     tags: [],
-    collectionId: null,
+    collectionId,
     openedCount: 1,
     lastOpenedAt: now,
     updatedAt: now,

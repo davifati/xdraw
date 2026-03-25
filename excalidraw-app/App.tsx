@@ -959,12 +959,41 @@ const ExcalidrawWrapper = ({
         autoFocus={true}
         theme={editorTheme}
         renderTopRightUI={(isMobile) => {
-          if (isMobile || !collabAPI || isCollabDisabled) {
-            return null;
+          if (isMobile) {
+            return (
+              <button
+                className="dashboard-back-btn"
+                onClick={onGoToDashboard}
+                title="Back to dashboard"
+              >
+                ←
+              </button>
+            );
+          }
+
+          if (!collabAPI || isCollabDisabled) {
+            return (
+              <div className="excalidraw-ui-top-right">
+                <button
+                  className="dashboard-back-btn"
+                  onClick={onGoToDashboard}
+                  title="Back to dashboard"
+                >
+                  ← My drawings
+                </button>
+              </div>
+            );
           }
 
           return (
             <div className="excalidraw-ui-top-right">
+              <button
+                className="dashboard-back-btn"
+                onClick={onGoToDashboard}
+                title="Back to dashboard"
+              >
+                ← My drawings
+              </button>
               {excalidrawAPI?.getEditorInterface().formFactor === "desktop" && (
                 <ExcalidrawPlusPromoBanner
                   isSignedIn={isExcalidrawPlusSignedUser}

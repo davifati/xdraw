@@ -80,6 +80,57 @@ The app hosted at [excalidraw.com](https://excalidraw.com) is a minimal showcase
 
 We'll be adding these features as drop-in plugins for the npm package in the future.
 
+## Rodando localmente no Mac (Build & Install)
+
+### Pré-requisitos
+
+- **Node.js** v18 ou superior — [nodejs.org](https://nodejs.org)
+- **Yarn** v1 — instale com `npm install -g yarn`
+
+### 1. Clone e instale as dependências
+
+```bash
+git clone https://github.com/seu-usuario/xdraw.git
+cd xdraw
+yarn install
+```
+
+### 2. Modo desenvolvimento (recomendado para testar)
+
+```bash
+yarn start
+```
+
+Abre automaticamente em `http://localhost:3000`. Hot-reload ativado.
+
+### 3. Build de produção
+
+```bash
+yarn build
+```
+
+Os arquivos ficam em `excalidraw-app/build/`.
+
+### 4. Servir o build localmente
+
+```bash
+yarn start:production
+```
+
+Acesse `http://localhost:5001`.
+
+### 5. Instalar como app no Mac (PWA)
+
+Depois de abrir no Chrome ou Edge em modo produção:
+
+1. Clique no ícone **⊕** na barra de endereços (ou menu → "Instalar Xdraw…")
+2. Confirme clicando em **Instalar**
+3. O app aparece no Launchpad e pode ser adicionado ao Dock
+
+> No Safari: acesse o site → compartilhar → **"Adicionar à Tela de Início"**
+
+---
+
 ## Quick start
 
 **Note:** following instructions are for installing the Excalidraw [npm package](https://www.npmjs.com/package/@excalidraw/excalidraw) when integrating Excalidraw into your own app. To run the repository locally for development, please refer to our [Development Guide](https://docs.excalidraw.com/docs/introduction/development).

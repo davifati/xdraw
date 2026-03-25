@@ -50,6 +50,12 @@ export const STORAGE_KEYS = {
 
   // do not use apart from migrations
   __LEGACY_LOCAL_STORAGE_LIBRARY: "excalidraw-library",
+
+  // Dashboard
+  DASHBOARD_DRAWINGS: "excalidraw-dashboard-drawings",
+  DASHBOARD_COLLECTIONS: "excalidraw-dashboard-collections",
+  DASHBOARD_ACTIVE_DRAWING_ID: "excalidraw-dashboard-active-id",
+  DASHBOARD_DRAWING_ELEMENTS_PREFIX: "excalidraw-drawing-",
 } as const;
 
 export const COOKIES = {

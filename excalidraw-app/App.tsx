@@ -142,6 +142,8 @@ import DebugCanvas, {
 } from "./components/DebugCanvas";
 import { AIComponents } from "./components/AI";
 import { ExcalidrawPlusIframeExport } from "./ExcalidrawPlusIframeExport";
+import { Dashboard } from "./dashboard/Dashboard";
+import { syncActiveDrawingToStore } from "./dashboard/dashboardStore";
 
 import "./index.scss";
 
@@ -371,7 +373,11 @@ const initializeScene = async (opts: {
   return { scene: null, isExternalScene: false };
 };
 
-const ExcalidrawWrapper = () => {
+const ExcalidrawWrapper = ({
+  onGoToDashboard,
+}: {
+  onGoToDashboard: () => void;
+}) => {
   const excalidrawAPI = useExcalidrawAPI();
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -990,6 +996,7 @@ const ExcalidrawWrapper = () => {
           theme={appTheme}
           setTheme={(theme) => setAppTheme(theme)}
           refresh={() => forceRefresh((prev) => !prev)}
+          onGoToDashboard={onGoToDashboard}
         />
         <AppWelcomeScreen
           onCollabDialogOpen={onCollabDialogOpen}
@@ -1269,15 +1276,44 @@ const ExcalidrawWrapper = () => {
 const ExcalidrawApp = () => {
   const isCloudExportWindow =
     window.location.pathname === "/excalidraw-plus-export";
+
+  // Determine the initial view: show the dashboard unless we are opening
+  // an external/shared scene (query param ?id=, hash #json=, collab room, etc.)
+  const [view, setView] = useState<"dashboard" | "editor">(() => {
+    if (isCloudExportWindow) {
+      return "editor";
+    }
+    const hash = window.location.hash;
+    const params = new URLSearchParams(window.location.search);
+    if (
+      params.has("id") ||
+      hash.startsWith("#json=") ||
+      hash.startsWith("#url=") ||
+      hash.startsWith("#room=")
+    ) {
+      return "editor";
+    }
+    return "dashboard";
+  });
+
+  const handleGoToDashboard = useCallback(() => {
+    syncActiveDrawingToStore();
+    setView("dashboard");
+  }, []);
+
   if (isCloudExportWindow) {
     return <ExcalidrawPlusIframeExport />;
+  }
+
+  if (view === "dashboard") {
+    return <Dashboard onOpenEditor={() => setView("editor")} />;
   }
 
   return (
     <TopErrorBoundary>
       <Provider store={appJotaiStore}>
         <ExcalidrawAPIProvider>
-          <ExcalidrawWrapper />
+          <ExcalidrawWrapper onGoToDashboard={handleGoToDashboard} />
         </ExcalidrawAPIProvider>
       </Provider>
     </TopErrorBoundary>
